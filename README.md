@@ -54,9 +54,7 @@ I dati sono generalmente forniti in **formato JSON**, ideali per essere consumat
 ## Architettura del sistema
 
 ### Backend
-- Applicazione server (Java, C#, Node.js, Python)
+- Applicazione server
 - Responsabile delle chiamate all’API Oddspedia
 - Normalizzazione dei dati ricevuti
 - Esposizione di endpoint REST verso il frontend
-
-Esempio di endpoint interno:
