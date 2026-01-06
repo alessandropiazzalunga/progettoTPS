@@ -1,7 +1,7 @@
 # Progetto: Dashboard Web “Live Sports Results”
 
 ## Obiettivo
-Realizzare un’**applicazione web** che mostri **risultati sportivi** e informazioni sulle competizioni per diversi sport (calcio, basket, tennis, ecc.), utilizzando un **feed di dati sportivi** fornito da **TheSportsDB API**.
+Realizzare un’**applicazione web** che mostri **risultati sportivi** e informazioni sugli eventi per diversi sport (calcio, basket, ecc.), utilizzando un **feed di dati sportivi** fornito da **The Odds API**.
 
 L’obiettivo didattico del progetto è dimostrare la capacità di:
 - integrare API REST esterne;
@@ -11,53 +11,50 @@ L’obiettivo didattico del progetto è dimostrare la capacità di:
 
 ---
 
-## API utilizzata: TheSportsDB
+## API utilizzata: The Odds API
 
-**TheSportsDB** è un servizio che fornisce dati sportivi tramite **API REST**, accessibili previa registrazione e utilizzo di una **chiave API gratuita**.
+**The Odds API** è un servizio che fornisce dati sportivi tramite **API REST**, accessibili tramite registrazione e utilizzo di una **chiave API personale**.
 
 L’API mette a disposizione informazioni quali:
-- eventi sportivi (passati, futuri e in corso);
-- risultati delle partite;
-- campionati e competizioni;
-- squadre e giocatori;
-- supporto a sport multipli (calcio, basket, tennis, hockey, motorsport, ecc.).
+- eventi sportivi programmati e recenti;
+- risultati delle partite (scores);
+- stato degli eventi (in corso, programmati, conclusi);
+- supporto a diversi sport e campionati (Serie A, Premier League, NBA, NFL, ecc.).
 
-I dati sono restituiti in **formato JSON**, ideali per essere consumati da applicazioni web.
+I dati sono restituiti in **formato JSON**, facilmente integrabili in applicazioni web.
 
-> **Nota:** TheSportsDB non fornisce dati di betting o quote live, ma una base dati sportiva completa, adatta a progetti didattici.
+> **Nota:** The Odds API è orientata principalmente al mondo delle scommesse sportive, ma fornisce anche endpoint dedicati ai **risultati**, utilizzabili per scopi didattici e informativi.
 
 ---
 
 ## Funzionalità principali dell’applicazione web
 
 ### 1. Risultati delle Partite
-- Visualizzazione dei risultati delle partite concluse
+- Visualizzazione dei risultati delle partite recenti
 - Visualizzazione delle partite in programma
-- Indicazione dello stato dell’evento (scheduled / finished)
+- Indicazione dello stato dell’evento (in corso / terminato)
 
-### 2. Calendario Eventi
-- Elenco degli eventi sportivi giornalieri o settimanali
+### 2. Eventi Giornalieri
+- Elenco degli eventi sportivi della giornata corrente
 - Informazioni principali:
   - squadre partecipanti
-  - data e ora
-  - competizione
-  - sport di riferimento
+  - data e ora dell’incontro
+  - sport e campionato di riferimento
 
 ### 3. Dettaglio Evento
 - Risultato finale o parziale
-- Informazioni sull’evento (stadio, lega, stagione)
-- Eventuali dettagli aggiuntivi disponibili tramite API
+- Stato dell’evento
+- Data e ora di svolgimento
 
 ### 4. Filtri
 - Filtro per sport
-- Filtro per lega o campionato
-- Filtro per data
+- Filtro per campionato (es. Serie A, NBA)
+- Filtro temporale (eventi recenti)
 
 ### 5. Funzionalità opzionali
-- Storico risultati per squadra o lega
-- Visualizzazione informazioni sulle squadre (logo, città, anno di fondazione)
-- Pagina di dettaglio squadra con ultimi eventi disputati
-- Evidenziazione eventi recenti o imminenti
+- Separazione dei risultati per campionato
+- Evidenziazione delle partite in corso
+- Aggiornamento automatico dei risultati
 
 ---
 
@@ -65,30 +62,30 @@ I dati sono restituiti in **formato JSON**, ideali per essere consumati da appli
 
 ### Backend
 - Applicazione server web
-- Responsabile delle chiamate all’API **TheSportsDB**
+- Responsabile delle chiamate all’API **The Odds API**
 - Gestione sicura della chiave API
 - Normalizzazione e filtraggio dei dati ricevuti
 - Esposizione di endpoint REST verso il frontend
 
 Esempi di endpoint backend:
-- `/api/events/today`
-- `/api/events/league/{id}`
-- `/api/team/{id}`
+- `/api/scores/today`
+- `/api/scores/seriea`
+- `/api/scores/nba`
 - `/api/sports`
 
 ### Frontend
 - Applicazione web accessibile tramite browser
 - Consumo degli endpoint REST del backend tramite HTTP
-- Aggiornamento dinamico dei dati (AJAX / Fetch API)
-- Interfaccia utente responsiva e intuitiva
+- Aggiornamento dinamico dei dati tramite Fetch API
+- Interfaccia utente semplice e intuitiva
 
 ---
 
 ## Tecnologie suggerite
 
 ### Frontend
-- HTML5, CSS3, JavaScript
-- Framework opzionali: React, Vue.js, Angular
+- HTML5
+- JavaScript (Fetch API)
 
 ### Backend
 - Node.js (Express)
@@ -99,9 +96,9 @@ Esempi di endpoint backend:
 ### Altre tecnologie
 - Formato dati: JSON
 - Architettura: REST
-- Versionamento: Git
+- Versionamento del codice: Git
 
 ---
 
 ## Conclusione
-Il progetto web “Live Sports Results”, basato su **TheSportsDB**, consente di sviluppare una dashboard web per la consultazione di dati sportivi, applicando concetti fondamentali di sviluppo web, integrazione di API REST e architettura client–server.
+Il progetto web “Live Sports Results”, basato su **The Odds API**, permette di sviluppare una dashboard per la visualizzazione dei risultati sportivi, applicando competenze fondamentali di sviluppo web, integrazione di API REST esterne e progettazione di un’architettura client–server in un contesto realistico e didatticamente efficace.
