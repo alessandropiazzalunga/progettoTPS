@@ -97,6 +97,7 @@ Esempi di endpoint backend:
 - Formato dati: JSON
 - Architettura: REST
 - Versionamento del codice: Git
+- Ambiente di sviluppo: Visual Studio
 
 ---
 
