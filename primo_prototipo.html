@@ -2,78 +2,303 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Risultati Sportivi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sport Dashboard - Giornata Completa</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; background-color: #f4f6f8; color: #333; }
+        h1 { text-align: center; margin-bottom: 30px; color: #1a202c; }
+       
+        .sport-section {
+            background: white;
+            padding: 0; /* Padding rimosso per header full width */
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+       
+        .section-header {
+            background-color: #fff;
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-header h2 { margin: 0; font-size: 1.4em; display: flex; align-items: center; gap: 10px; }
+        .section-content { padding: 20px; }
+ 
+        .container-flex { display: flex; flex-wrap: wrap; gap: 20px; }
+        .box { flex: 1; min-width: 340px; }
+        .box h3 { color: #555; font-size: 1.1em; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 15px; border-bottom: 2px solid #007bff; display: inline-block; padding-bottom: 5px; }
+ 
+        /* SCROLL E DATE */
+        .scrollable-box { max-height: 600px; overflow-y: auto; padding-right: 5px; }
+        .scrollable-box::-webkit-scrollbar { width: 6px; }
+        .scrollable-box::-webkit-scrollbar-thumb { background-color: #cbd5e0; border-radius: 4px; }
+ 
+        .date-divider {
+            background-color: #edf2f7;
+            color: #4a5568;
+            padding: 8px 12px;
+            font-size: 0.85em;
+            font-weight: bold;
+            border-radius: 6px;
+            margin: 15px 0 8px 0;
+            text-transform: capitalize;
+        }
+ 
+        /* CARD PARTITA */
+        .match-card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: transform 0.1s;
+        }
+        .match-card:hover { border-color: #cbd5e0; background-color: #fbfbfb; }
+ 
+        .team { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 0.95em; width: 40%; }
+        .team img { width: 28px; height: 28px; object-fit: contain; }
+        .team.away { justify-content: flex-end; text-align: right; }
+       
+        .score-info { width: 20%; text-align: center; display: flex; flex-direction: column; justify-content: center; }
+        .score { font-size: 1.3em; font-weight: 700; color: #2d3748; letter-spacing: 1px; }
+        .status { font-size: 0.75em; color: #718096; margin-top: 3px; }
+       
+        .live-text { color: #e53e3e; font-weight: bold; animation: pulse 1.5s infinite; }
+       
+        /* TABELLA CLASSIFICA */
+        table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
+        th, td { padding: 10px 8px; text-align: center; border-bottom: 1px solid #eee; }
+        th { background-color: #2d3748; color: white; font-weight: 500; font-size: 0.85em; text-transform: uppercase; }
+        td:nth-child(2) { text-align: left; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        td img { width: 24px; height: 24px; }
+        tr:nth-child(even) { background-color: #f7fafc; }
+       
+        .conf-title { background: #e2e8f0; padding: 8px; font-size: 0.9em; font-weight: bold; margin-top: 20px; text-align: center; border-radius: 4px; color: #4a5568; }
+ 
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+    </style>
 </head>
 <body>
-
-<h1>Risultati Sportivi Recenti</h1>
-
-<h2>Serie A</h2>
-<div id="seriea">
-    Caricamento...
+ 
+<h1>Calendario e Classifiche Live</h1>
+ 
+<!-- SERIE A -->
+<div class="sport-section">
+    <div class="section-header">
+        <h2><img src="https://a.espncdn.com/combiner/i?img=/i/leagues/soccer/ita.1.png&w=40&h=40" alt=""> Serie A</h2>
+    </div>
+    <div class="section-content">
+        <div class="container-flex">
+            <div class="box">
+                <h3></h3>
+                <div id="seriea-scores" class="scrollable-box">Caricamento partite...</div>
+            </div>
+            <div class="box">
+                <h3>Classifica</h3>
+                <div id="seriea-standings" class="scrollable-box">Caricamento classifica...</div>
+            </div>
+        </div>
+    </div>
 </div>
-
-<hr>
-
-<h2>NBA</h2>
-<div id="nba">
-    Caricamento...
+ 
+<!-- NBA -->
+<div class="sport-section">
+    <div class="section-header">
+        <h2><img src="https://a.espncdn.com/combiner/i?img=/i/leagues/nba.png&w=40&h=40" alt=""> NBA</h2>
+    </div>
+    <div class="section-content">
+        <div class="container-flex">
+            <div class="box">
+                <h3>Partite Recenti e Prossime</h3>
+                <div id="nba-scores" class="scrollable-box">Caricamento partite...</div>
+            </div>
+            <div class="box">
+                <h3>Classifiche Conference</h3>
+                <div id="nba-standings" class="scrollable-box">Caricamento classifica...</div>
+            </div>
+        </div>
+    </div>
 </div>
-
+ 
 <script>
-    const API_KEY = "f409b20350fbf92c636c245e5ed6452c";
-
-    async function caricaCampionato(sportKey, containerId) {
+    // --- UTILITY: CALCOLO DATE ---
+    // Restituisce una stringa YYYYMMDD-YYYYMMDD per coprire l'intera "giornata"
+    // Prende da 2 giorni fa a 5 giorni avanti per assicurarsi di prendere anticipi e posticipi
+    function getWeekRange() {
+        const today = new Date();
+       
+        const past = new Date(today);
+        past.setDate(today.getDate() - 2); // 2 giorni fa
+ 
+        const future = new Date(today);
+        future.setDate(today.getDate() + 5); // 5 giorni avanti
+ 
+        const format = (d) => d.toISOString().slice(0, 10).replace(/-/g, "");
+        return `${format(past)}-${format(future)}`;
+    }
+ 
+    // --- FUNZIONE 1: CARICA PARTITE (CON RAGGRUPPAMENTO DATE) ---
+    async function caricaPartite(sport, league, containerId) {
         const container = document.getElementById(containerId);
-        container.innerHTML = "Caricamento...";
-
-        const url = `https://api.the-odds-api.com/v4/sports/${sportKey}/scores/?daysFrom=2&apiKey=${API_KEY}`;
-
+       
+        // Usiamo il range di date calcolato per prendere tutto il turno
+        const dateRange = getWeekRange();
+        const url = `https://site.api.espn.com/apis/site/v2/sports/${sport}/${league}/scoreboard?dates=${dateRange}&limit=100`;
+ 
         try {
             const response = await fetch(url);
             const data = await response.json();
-
-            if (data.length === 0) {
-                container.innerHTML = "Nessuna partita disponibile.";
+            const events = data.events;
+ 
+            if (!events || events.length === 0) {
+                container.innerHTML = "<p style='color:#666;'>Nessuna partita in questo intervallo.</p>";
                 return;
             }
-
+ 
             container.innerHTML = "";
-
-            data.forEach(match => {
-                let homeScore = "-";
-                let awayScore = "-";
-
-                if (match.scores) {
-                    const h = match.scores.find(s => s.name === match.home_team);
-                    const a = match.scores.find(s => s.name === match.away_team);
-                    if (h) homeScore = h.score;
-                    if (a) awayScore = a.score;
+            let lastDate = "";
+ 
+            events.forEach(event => {
+                // Gestione Intestazione Data (es. Sabato 20 Gennaio)
+                const eventDateObj = new Date(event.date);
+                const dateString = eventDateObj.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long' });
+ 
+                if (dateString !== lastDate) {
+                    container.innerHTML += `<div class="date-divider">${dateString}</div>`;
+                    lastDate = dateString;
                 }
-
-                const date = new Date(match.commence_time)
-                    .toLocaleString("it-IT");
-
-                const status = match.completed ? "Terminata" : "In corso / Programmata";
-
+ 
+                // Dati Partita
+                const match = event.competitions[0];
+                const home = match.competitors.find(c => c.homeAway === 'home');
+                const away = match.competitors.find(c => c.homeAway === 'away');
+ 
+                const homeLogo = home.team.logo || "https://via.placeholder.com/30";
+                const awayLogo = away.team.logo || "https://via.placeholder.com/30";
+               
+                // Punteggio (se la partita non è iniziata, score è solitamente 0 o undefined, gestiamo la visualizzazione)
+                const statusState = event.status.type.state;
+                let centerContent = "";
+                let statusClass = "status";
+ 
+                if (statusState === 'pre') {
+                    // Non iniziata: Mostra orario
+                    const time = eventDateObj.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
+                    centerContent = `<div class="score" style="font-size:1.1em; color:#0277bd;">${time}</div>`;
+                    statusClass += " upcoming";
+                } else if (statusState === 'in') {
+                    // Live
+                    centerContent = `<div class="score">${home.score} - ${away.score}</div>`;
+                    statusClass += " live-text";
+                    centerContent += `<div class="${statusClass}">🔴 ${event.status.type.detail}</div>`;
+                } else {
+                    // Finita
+                    centerContent = `<div class="score">${home.score} - ${away.score}</div>`;
+                    centerContent += `<div class="${statusClass}">Finale</div>`;
+                }
+ 
                 container.innerHTML += `
-                    <p>
-                        ${match.home_team} - ${match.away_team}<br>
-                        Risultato: ${homeScore} - ${awayScore}<br>
-                        Stato: ${status}<br>
-                        Data: ${date}
-                    </p>
+                    <div class="match-card">
+                        <div class="team">
+                            <img src="${homeLogo}" alt=""> ${home.team.shortDisplayName}
+                        </div>
+                        <div class="score-info">
+                            ${centerContent}
+                        </div>
+                        <div class="team away">
+                            ${away.team.shortDisplayName} <img src="${awayLogo}" alt="">
+                        </div>
+                    </div>
                 `;
             });
-
+ 
         } catch (err) {
-            container.innerHTML = "Errore di connessione.";
+            console.error(err);
+            container.innerHTML = "Errore caricamento partite.";
         }
     }
 
-    caricaCampionato("soccer_italy_serie_a", "seriea");
-    caricaCampionato("basketball_nba", "nba");
+    async function caricaClassifica(sport, league, containerId) {
+        const container = document.getElementById(containerId);
+        const url = `https://site.api.espn.com/apis/v2/sports/${sport}/${league}/standings`;
+ 
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            let html = "";
+ 
+            if(data.children && data.children.length > 0) {
+                data.children.forEach(group => {
+                    if(league === 'nba') {
+                        html += `<div class="conf-title">${group.name}</div>`;
+                    }
+ 
+                    html += `
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="width:30px">#</th>
+                                    <th>Squadra</th>
+                                    <th style="width:50px">${league === 'ita.1' ? 'Pt' : 'W-L'}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+ 
+                    group.standings.entries.forEach((entry, index) => {
+                        const teamName = entry.team.shortDisplayName;
+                        const logo = entry.team.logos?.[0]?.href || "";
+                       
+                        let statVal = "";
+                        if(league === 'ita.1') {
+                            statVal = entry.stats.find(s => s.name === 'points')?.value || 0;
+                        } else {
+                            const w = entry.stats.find(s => s.name === 'wins')?.value || 0;
+                            const l = entry.stats.find(s => s.name === 'losses')?.value || 0;
+                            statVal = `${w}-${l}`;
+                        }
+ 
+                        // Colora zone Europa (esempio Serie A)
+                        let rowStyle = "";
+                        if(league === 'ita.1') {
+                            if(index < 4) rowStyle = "background-color: #e6fffa; border-left: 3px solid #38b2ac;"; // Champions
+                            else if (index < 6) rowStyle = "background-color: #fffaf0; border-left: 3px solid #ed8936;"; // Europa
+                            else if (index >= 17) rowStyle = "background-color: #fff5f5; border-left: 3px solid #f56565;"; // Retrocessione
+                        }
+ 
+                        html += `
+                            <tr style="${rowStyle}">
+                                <td>${index + 1}</td>
+                                <td><img src="${logo}" alt=""> ${teamName}</td>
+                                <td><strong>${statVal}</strong></td>
+                            </tr>
+                        `;
+                    });
+                    html += `</tbody></table>`;
+                });
+            }
+            container.innerHTML = html;
+ 
+        } catch (err) {
+            console.error(err);
+            container.innerHTML = "Errore classifica.";
+        }
+    }
+ 
+    caricaPartite("soccer", "ita.1", "seriea-scores");
+    caricaClassifica("soccer", "ita.1", "seriea-standings");
+ 
+    caricaPartite("basketball", "nba", "nba-scores");
+    caricaClassifica("basketball", "nba", "nba-standings");
+ 
 </script>
-
+ 
 </body>
 </html>
