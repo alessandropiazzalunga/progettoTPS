@@ -1,7 +1,7 @@
 # Progetto: Dashboard Web “Live Sports Results”
 
 ## Obiettivo
-Realizzare un’**applicazione web** che mostri **risultati sportivi** e informazioni sugli eventi per diversi sport (calcio, basket, ecc.), utilizzando un **feed di dati sportivi** fornito da **The Odds API**.
+Realizzare un’**applicazione web** che mostri **risultati sportivi** e informazioni sugli eventi per diversi sport (calcio, basket, ecc.), utilizzando un **feed di dati sportivi** fornito da **ESPN API**.
 
 L’obiettivo didattico del progetto è dimostrare la capacità di:
 - integrare API REST esterne;
@@ -11,9 +11,9 @@ L’obiettivo didattico del progetto è dimostrare la capacità di:
 
 ---
 
-## API utilizzata: The Odds API
+## API utilizzata: ESPNPI
 
-**The Odds API** è un servizio che fornisce dati sportivi tramite **API REST**, accessibili tramite registrazione e utilizzo di una **chiave API personale**.
+**ESPN API** è un servizio che fornisce dati sportivi tramite **API REST**.
 
 L’API mette a disposizione informazioni quali:
 - eventi sportivi programmati e recenti;
@@ -23,7 +23,7 @@ L’API mette a disposizione informazioni quali:
 
 I dati sono restituiti in **formato JSON**, facilmente integrabili in applicazioni web.
 
-> **Nota:** The Odds API è orientata principalmente al mondo delle scommesse sportive, ma fornisce anche endpoint dedicati ai **risultati**, utilizzabili per scopi didattici e informativi.
+> **Nota:** ESPN API è orientata principalmente al mondo delle scommesse sportive, ma fornisce anche endpoint dedicati ai **risultati**, utilizzabili per scopi didattici e informativi.
 
 ---
 
