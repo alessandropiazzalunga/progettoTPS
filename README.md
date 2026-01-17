@@ -11,7 +11,7 @@ L’obiettivo didattico del progetto è dimostrare la capacità di:
 
 ---
 
-## API utilizzata: ESPNPI
+## API utilizzata: ESPN API
 
 **ESPN API** è un servizio che fornisce dati sportivi tramite **API REST**.
 
@@ -62,7 +62,7 @@ I dati sono restituiti in **formato JSON**, facilmente integrabili in applicazio
 
 ### Backend
 - Applicazione server web
-- Responsabile delle chiamate all’API **The Odds API**
+- Responsabile delle chiamate all’API **ESPN API**
 - Gestione sicura della chiave API
 - Normalizzazione e filtraggio dei dati ricevuti
 - Esposizione di endpoint REST verso il frontend
@@ -101,5 +101,15 @@ Esempi di endpoint backend:
 
 ---
 
+
+## Stato di Avanzamento (Feature Implementate)
+
+### Switch Modalità Chiaro/Scuro (Dark Mode)
+È stata completata la prima funzionalità dell'interfaccia utente:
+- Aggiunta di un **pulsante strisciabile (toggle switch)**.
+- Il pulsante permette di cambiare istantaneamente la modalità di visualizzazione del sito da **Chiaro** a **Scuro**.
+
+  
+---
 ## Conclusione
 Il progetto web “Live Sports Results”, basato su **The Odds API**, permette di sviluppare una dashboard per la visualizzazione dei risultati sportivi, applicando competenze fondamentali di sviluppo web, integrazione di API REST esterne e progettazione di un’architettura client–server in un contesto realistico e didatticamente efficace.
