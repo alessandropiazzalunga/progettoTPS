@@ -231,8 +231,4 @@ La documentazione del progetto, elemento fondamentale del processo di sviluppo s
 
 ### 10.2 Possibili Estensioni
 
-L'applicazione "Live Sports Results" può essere estesa con funzionalità aggiuntive che ne aumentano il valore e la complessità tecnica. Tra le possibili estensioni si evidenziano l'aggiunta di ulteriori sport (basket, tennis, rugby) e campionati (Serie A, Champions League), l'implementazione di funzionalità di ricerca avanzata e ordinamento personalizzato, l'integrazione di statistiche dettagliate sulle partite e sui giocatori, e lo sviluppo di notifiche push per avvisare l'utente di eventi specifici.
-
-Lato tecnico, potrebbero essere implementati un sistema di caching più sofisticato per ridurre il carico sull'API esterna, l'utilizzo di WebSocket per aggiornamenti in tempo reale senza polling, l'implementazione di test automatizzati più completi e l'adozione di pratiche di continuous integration e continuous deployment (CI/CD) per automatizzare il processo di rilascio.
-
-Queste estensioni rappresentano opportunità di approfondimento tecnico che permetterebbero di affrontare sfide più complesse e di acquisire competenze avanzate nello sviluppo di applicazioni web moderne.
+L'applicazione "Live Sports Results" può essere estesa con funzionalità aggiuntive che ne aumentano il valore e la complessità tecnica. Tra le possibili estensioni si evidenziano l'aggiunta di ulteriori sport (basket, tennis, rugby) e campionati (Champions League), l'implementazione di funzionalità di ricerca avanzata e ordinamento personalizzato, l'integrazione di statistiche dettagliate sulle partite e sui giocatori, e lo sviluppo di notifiche push per avvisare l'utente di eventi specifici.
