@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sport Dashboard - Giornata Completa</title>
+    <style>
+        /* --- VARIABILI GLOBALI (Colori Base) --- */
+        :root {
+            --bg-body: #f4f6f8;
+            --text-main: #333;
+            --text-secondary: #555;
+            --card-bg: #ffffff;
+            --header-bg: #ffffff;
+            --border-color: #eee;
+            --card-hover: #fbfbfb;
+            --accent-color: #007bff;
+            --shadow: 0 4px 15px rgba(0,0,0,0.05);
+            
+            /* Colori Zone Classifica (Modalità Chiara) */
+            --ucl-bg: #e6fffa; --ucl-border: #38b2ac;
+            --uel-bg: #fef3c7; --uel-border: #f59e0b;
+            --conf-bg: #ede9fe; --conf-border: #8b5cf6;
+            --playoff-bg: #fef9c3; --playoff-border: #ca8a04;
+            --rel-bg: #fff5f5; --rel-border: #f56565;
+            --rel-playoff-bg: #fed7aa; --rel-playoff-border: #ea580c;
+            --even-row: #f7fafc;
+        }
+
+        /* --- MODALITÀ SCURA (Dark Mode) --- */
+        body.dark-mode {
+            --bg-body: #121212;
+            --text-main: #e0e0e0;
+            --text-secondary: #aaa;
+            --card-bg: #1e1e1e;
+            --header-bg: #1e1e1e;
+            --border-color: #333;
+            --card-hover: #2d2d2d;
+            --accent-color: #4da3ff;
+            --shadow: 0 4px 15px rgba(0,0,0,0.5);
+
+            /* Colori Zone Classifica (Modalità Scura) */
+            --ucl-bg: #0f2e2b; --ucl-border: #2c7a7b;
+            --uel-bg: #422006; --uel-border: #d97706;
+            --conf-bg: #2e1065; --conf-border: #7c3aed;
+            --playoff-bg: #3f3f00; --playoff-border: #a16207;
+            --rel-bg: #2e1515; --rel-border: #c53030;
+            --rel-playoff-bg: #431407; --rel-playoff-border: #c2410c;
+            --even-row: #252525;
+        }
+
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; background-color: var(--bg-body); color: var(--text-main); transition: background 0.3s, color 0.3s; }
+        h1 { text-align: center; margin-bottom: 20px; color: var(--text-main); }
+        h2 { color: var(--text-main); }
+        h3 { color: var(--text-secondary) !important; }
+
+        /* --- TOGGLE SWITCH (Tasto Scorrere) --- */
+        .theme-switch-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            gap: 10px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        .theme-switch {
+            display: inline-block;
+            height: 28px;
+            position: relative;
+            width: 50px;
+        }
+        .theme-switch input { display: none; }
+        .slider {
+            background-color: #ccc;
+            bottom: 0;
+            cursor: pointer;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        .slider:before {
+            background-color: #fff;
+            bottom: 4px;
+            content: "";
+            height: 20px;
+            left: 4px;
+            position: absolute;
+            transition: .4s;
+            width: 20px;
+            border-radius: 50%;
+        }
+        input:checked + .slider { background-color: #007bff; }
+        input:checked + .slider:before { transform: translateX(22px); }
+
+        /* --- STRUTTURA --- */
+        .sport-section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            overflow: hidden;
+            transition: background 0.3s;
+        }
+       
+        .section-header {
+            background-color: var(--header-bg);
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-header h2 { margin: 0; font-size: 1.4em; display: flex; align-items: center; gap: 10px; }
+        .section-content { padding: 20px; }
+ 
+        .container-flex { display: flex; flex-wrap: wrap; gap: 20px; }
+        .box { flex: 1; min-width: 340px; }
+        .box h3 { font-size: 1.1em; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 15px; border-bottom: 2px solid var(--accent-color); display: inline-block; padding-bottom: 5px; }
+ 
+        /* SCROLL E DATE */
+        .scrollable-box { max-height: 600px; overflow-y: auto; padding-right: 5px; }
+        .scrollable-box::-webkit-scrollbar { width: 6px; }
+        .scrollable-box::-webkit-scrollbar-thumb { background-color: #cbd5e0; border-radius: 4px; }
+        .scrollable-box::-webkit-scrollbar-track { background: transparent; }
+ 
+        .date-divider {
+            background-color: var(--border-color);
+            color: var(--text-secondary);
+            padding: 8px 12px;
+            font-size: 0.85em;
+            font-weight: bold;
+            border-radius: 6px;
+            margin: 15px 0 8px 0;
+            text-transform: capitalize;
+        }
+ 
+        /* CARD PARTITA */
+        .match-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.2s;
+        }
+        .match-card:hover { border-color: #cbd5e0; background-color: var(--card-hover); }
+ 
+        .team { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 0.95em; width: 40%; color: var(--text-main); }
+        .team img { width: 28px; height: 28px; object-fit: contain; }
+        .team.away { justify-content: flex-end; text-align: right; }
+       
+        .score-info { width: 20%; text-align: center; display: flex; flex-direction: column; justify-content: center; }
+        .score { font-size: 1.3em; font-weight: 700; color: var(--text-main); letter-spacing: 1px; }
+        .status { font-size: 0.75em; color: var(--text-secondary); margin-top: 3px; }
+       
+        .live-text { color: #e53e3e; font-weight: bold; animation: pulse 1.5s infinite; }
+       
+        /* TABELLA CLASSIFICA */
+        table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
+        th, td { padding: 10px 8px; text-align: center; border-bottom: 1px solid var(--border-color); color: var(--text-main); }
+        th { background-color: #2d3748; color: white; font-weight: 500; font-size: 0.85em; text-transform: uppercase; }
+        td:nth-child(2) { text-align: left; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        td img { width: 24px; height: 24px; }
+        
+        tr:nth-child(even) { background-color: var(--even-row); }
+       
+        /* Classi dinamiche per le zone classifica */
+        .zone-ucl { background-color: var(--ucl-bg) !important; border-left: 3px solid var(--ucl-border); }
+        .zone-uel { background-color: var(--uel-bg) !important; border-left: 3px solid var(--uel-border); }
+        .zone-conf { background-color: var(--conf-bg) !important; border-left: 3px solid var(--conf-border); }
+        .zone-playoff { background-color: var(--playoff-bg) !important; border-left: 3px solid var(--playoff-border); }
+        .zone-rel { background-color: var(--rel-bg) !important; border-left: 3px solid var(--rel-border); }
+        .zone-rel-playoff { background-color: var(--rel-playoff-bg) !important; border-left: 3px solid var(--rel-playoff-border); }
+
+        .conf-title { background: var(--border-color); padding: 8px; font-size: 0.9em; font-weight: bold; margin-top: 20px; text-align: center; border-radius: 4px; color: var(--text-secondary); }
+
+        /* LEGENDA */
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+            padding: 10px;
+            background: var(--border-color);
+            border-radius: 8px;
+            font-size: 0.75em;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+ 
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+    </style>
+</head>
+<body>
+ 
+<!-- INTERRUTTORE TEMA -->
+<div class="theme-switch-wrapper">
+    <span>Light mode</span>
+    <label class="theme-switch" for="checkbox">
+        <input type="checkbox" id="checkbox" />
+        <div class="slider"></div>
+    </label>
+    <span>Dark mode</span>
+</div>
+
+<h1>Calendario e Classifiche Live</h1>
+ 
+<!-- SERIE A -->
+<div class="sport-section">
+    <div class="section-header">
+        <h2><img src="https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/12.png&w=40&h=40" alt=""> Serie A</h2>
+    </div>
+    <div class="section-content">
+        <div class="container-flex">
+            <div class="box">
+                <h3>Partite</h3>
+                <div id="seriea-scores" class="scrollable-box">Caricamento partite...</div>
+            </div>
+            <div class="box">
+                <h3>Classifica</h3>
+                <div id="seriea-standings" class="scrollable-box">Caricamento classifica...</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- PREMIER LEAGUE -->
+<div class="sport-section">
+    <div class="section-header">
+        <h2><img src="https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/23.png&w=40&h=40" alt=""> Premier League</h2>
+    </div>
+    <div class="section-content">
+        <div class="container-flex">
+            <div class="box">
+                <h3>Partite</h3>
+                <div id="premier-scores" class="scrollable-box">Caricamento partite...</div>
+            </div>
+            <div class="box">
+                <h3>Classifica</h3>
+                <div id="premier-standings" class="scrollable-box">Caricamento classifica...</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- LA LIGA -->
+<div class="sport-section">
+    <div class="section-header">
+        <h2><img src="https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/15.png&w=40&h=40" alt=""> La Liga</h2>
+    </div>
+    <div class="section-content">
+        <div class="container-flex">
+            <div class="box">
+                <h3>Partite</h3>
+                <div id="liga-scores" class="scrollable-box">Caricamento partite...</div>
+            </div>
+            <div class="box">
+                <h3>Classifica</h3>
+                <div id="liga-standings" class="scrollable-box">Caricamento classifica...</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- BUNDESLIGA -->
+<div class="sport-section">
+    <div class="section-header">
+        <h2><img src="https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/10.png&w=40&h=40" alt=""> Bundesliga</h2>
+    </div>
+    <div class="section-content">
+        <div class="container-flex">
+            <div class="box">
+                <h3>Partite</h3>
+                <div id="bundesliga-scores" class="scrollable-box">Caricamento partite...</div>
+            </div>
+            <div class="box">
+                <h3>Classifica</h3>
+                <div id="bundesliga-standings" class="scrollable-box">Caricamento classifica...</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- LIGUE 1 -->
+<div class="sport-section">
+    <div class="section-header">
+        <h2><img src="https://a.espncdn.com/combiner/i?img=/i/leaguelogos/soccer/500/9.png&w=40&h=40" alt=""> Ligue 1</h2>
+    </div>
+    <div class="section-content">
+        <div class="container-flex">
+            <div class="box">
+                <h3>Partite</h3>
+                <div id="ligue1-scores" class="scrollable-box">Caricamento partite...</div>
+            </div>
+            <div class="box">
+                <h3>Classifica</h3>
+                <div id="ligue1-standings" class="scrollable-box">Caricamento classifica...</div>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+<!-- NBA -->
+<div class="sport-section">
+    <div class="section-header">
+        <h2><img src="https://a.espncdn.com/combiner/i?img=/i/teamlogos/leagues/500/nba.png&w=40&h=40" alt=""> NBA</h2>
+    </div>
+    <div class="section-content">
+        <div class="container-flex">
+            <div class="box">
+                <h3>Partite Recenti e Prossime</h3>
+                <div id="nba-scores" class="scrollable-box">Caricamento partite...</div>
+            </div>
+            <div class="box">
+                <h3>Classifiche Conference</h3>
+                <div id="nba-standings" class="scrollable-box">Caricamento classifica...</div>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+<script>
+    // --- GESTIONE DARK MODE ---
+    const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+    
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+        toggleSwitch.checked = true;
+    }
+
+    function switchTheme(e) {
+        if (e.target.checked) {
+            document.body.classList.add('dark-mode');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.body.classList.remove('dark-mode');
+            localStorage.setItem('theme', 'light');
+        }
+    }
+    toggleSwitch.addEventListener('change', switchTheme);
+
+    // --- UTILITY: CALCOLO DATE ---
+    function getWeekRange() {
+        const today = new Date();
+        const past = new Date(today);
+        past.setDate(today.getDate() - 2); 
+        const future = new Date(today);
+        future.setDate(today.getDate() + 5); 
+        const format = (d) => d.toISOString().slice(0, 10).replace(/-/g, "");
+        return `${format(past)}-${format(future)}`;
+    }
+
+    // --- CONFIGURAZIONE ZONE CLASSIFICA PER OGNI CAMPIONATO ---
+    const leagueZones = {
+        'ita.1': { // Serie A - 20 squadre
+            ucl: [0, 1, 2, 3],           // 1-4: Champions League
+            uel: [4, 5],                  // 5-6: Europa League
+            conf: [],                     // Nessun posto diretto Conference
+            relPlayoff: [],               // Nessun playoff retrocessione
+            rel: [17, 18, 19],            // 18-20: Retrocessione
+            totalTeams: 20
+        },
+        'eng.1': { // Premier League - 20 squadre
+            ucl: [0, 1, 2, 3],           // 1-4: Champions League
+            uel: [4],                     // 5: Europa League
+            conf: [5],                    // 6: Conference League
+            relPlayoff: [],               // Nessun playoff retrocessione
+            rel: [17, 18, 19],            // 18-20: Retrocessione
+            totalTeams: 20
+        },
+        'esp.1': { // La Liga - 20 squadre
+            ucl: [0, 1, 2, 3],           // 1-4: Champions League
+            uel: [4, 5],                  // 5-6: Europa League
+            conf: [6],                    // 7: Conference League
+            relPlayoff: [],               // Nessun playoff retrocessione
+            rel: [17, 18, 19],            // 18-20: Retrocessione
+            totalTeams: 20
+        },
+        'ger.1': { // Bundesliga - 18 squadre
+            ucl: [0, 1, 2, 3],           // 1-4: Champions League
+            uel: [4],                     // 5: Europa League
+            conf: [5],                    // 6: Conference League
+            relPlayoff: [15],             // 16: Playoff retrocessione
+            rel: [16, 17],                // 17-18: Retrocessione
+            totalTeams: 18
+        },
+        'fra.1': { // Ligue 1 - 18 squadre
+            ucl: [0, 1, 2],              // 1-3: Champions League
+            uel: [3],                     // 4: Europa League
+            conf: [4],                    // 5: Conference League
+            relPlayoff: [15],             // 16: Playoff retrocessione
+            rel: [16, 17],                // 17-18: Retrocessione
+            totalTeams: 18
+        },
+        'nba': { // NBA
+            playoff: [0, 1, 2, 3, 4, 5],  // 1-6: Playoff diretti
+            playIn: [6, 7, 8, 9],         // 7-10: Play-In
+            totalTeams: 15
+        }
+    };
+
+    // --- FUNZIONE: OTTIENI CLASSE CSS PER ZONA ---
+    function getZoneClass(league, index) {
+        const zones = leagueZones[league];
+        if (!zones) return "";
+
+        if (league === 'nba') {
+            if (zones.playoff.includes(index)) return "zone-ucl";
+            if (zones.playIn.includes(index)) return "zone-playoff";
+            return "";
+        }
+
+        if (zones.ucl.includes(index)) return "zone-ucl";
+        if (zones.uel.includes(index)) return "zone-uel";
+        if (zones.conf.includes(index)) return "zone-conf";
+        if (zones.relPlayoff.includes(index)) return "zone-rel-playoff";
+        if (zones.rel.includes(index)) return "zone-rel";
+        
+        return "";
+    }
+
+    // --- FUNZIONE: GENERA LEGENDA ---
+    function generateLegend(league) {
+        const zones = leagueZones[league];
+        if (!zones) return "";
+
+        if (league === 'nba') {
+            return `
+                <div class="legend">
+                    <div class="legend-item"><div class="legend-color" style="background: var(--ucl-border);"></div> Playoff Diretti (1-6)</div>
+                    <div class="legend-item"><div class="legend-color" style="background: var(--playoff-border);"></div> Play-In (7-10)</div>
+                </div>
+            `;
+        }
+
+        let legendHtml = '<div class="legend">';
+        
+        if (zones.ucl.length > 0) {
+            legendHtml += `<div class="legend-item"><div class="legend-color" style="background: var(--ucl-border);"></div> Champions League</div>`;
+        }
+        if (zones.uel.length > 0) {
+            legendHtml += `<div class="legend-item"><div class="legend-color" style="background: var(--uel-border);"></div> Europa League</div>`;
+        }
+        if (zones.conf.length > 0) {
+            legendHtml += `<div class="legend-item"><div class="legend-color" style="background: var(--conf-border);"></div> Conference League</div>`;
+        }
+        if (zones.relPlayoff.length > 0) {
+            legendHtml += `<div class="legend-item"><div class="legend-color" style="background: var(--rel-playoff-border);"></div> Spareggio Retr.</div>`;
+        }
+        if (zones.rel.length > 0) {
+            legendHtml += `<div class="legend-item"><div class="legend-color" style="background: var(--rel-border);"></div> Retrocessione</div>`;
+        }
+
+        legendHtml += '</div>';
+        return legendHtml;
+    }
+ 
+    // --- FUNZIONE 1: CARICA PARTITE ---
+    async function caricaPartite(sport, league, containerId) {
+        const container = document.getElementById(containerId);
+        const dateRange = getWeekRange();
+        const url = `https://site.api.espn.com/apis/site/v2/sports/${sport}/${league}/scoreboard?dates=${dateRange}&limit=100`;
+ 
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            const events = data.events;
+ 
+            if (!events || events.length === 0) {
+                container.innerHTML = "<p style='color:var(--text-secondary);'>Nessuna partita in questo intervallo.</p>";
+                return;
+            }
+ 
+            container.innerHTML = "";
+            let lastDate = "";
+ 
+            events.forEach(event => {
+                const eventDateObj = new Date(event.date);
+                const dateString = eventDateObj.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long' });
+ 
+                if (dateString !== lastDate) {
+                    container.innerHTML += `<div class="date-divider">${dateString}</div>`;
+                    lastDate = dateString;
+                }
+ 
+                const match = event.competitions[0];
+                const home = match.competitors.find(c => c.homeAway === 'home');
+                const away = match.competitors.find(c => c.homeAway === 'away');
+ 
+                const homeLogo = home.team.logo || "https://via.placeholder.com/30";
+                const awayLogo = away.team.logo || "https://via.placeholder.com/30";
+               
+                const statusState = event.status.type.state;
+                let centerContent = "";
+                let statusClass = "status";
+ 
+                if (statusState === 'pre') {
+                    const time = eventDateObj.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
+                    centerContent = `<div class="score" style="font-size:1.1em; color:var(--accent-color);">${time}</div>`;
+                    statusClass += " upcoming";
+                } else if (statusState === 'in') {
+                    centerContent = `<div class="score">${home.score} - ${away.score}</div>`;
+                    statusClass += " live-text";
+                    centerContent += `<div class="${statusClass}">🔴 ${event.status.type.detail}</div>`;
+                } else {
+                    centerContent = `<div class="score">${home.score} - ${away.score}</div>`;
+                    centerContent += `<div class="${statusClass}">CONCLUSA</div>`;
+                }
+ 
+                container.innerHTML += `
+                    <div class="match-card">
+                        <div class="team">
+                            <img src="${homeLogo}" alt=""> ${home.team.shortDisplayName}
+                        </div>
+                        <div class="score-info">
+                            ${centerContent}
+                        </div>
+                        <div class="team away">
+                            ${away.team.shortDisplayName} <img src="${awayLogo}" alt="">
+                        </div>
+                    </div>
+                `;
+            });
+ 
+        } catch (err) {
+            console.error(err);
+            container.innerHTML = "<p style='color:#e53e3e;'>❌ Errore caricamento partite.</p>";
+        }
+    }
+
+    // --- FUNZIONE 2: CARICA CLASSIFICA (AGGIORNATA) ---
+    async function caricaClassifica(sport, league, containerId) {
+        const container = document.getElementById(containerId);
+        const url = `https://site.api.espn.com/apis/v2/sports/${sport}/${league}/standings`;
+ 
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            let html = "";
+
+            // Determina se è calcio o basket
+            const isSoccer = sport === 'soccer';
+ 
+            if(data.children && data.children.length > 0) {
+                data.children.forEach(group => {
+                    // Per NBA mostra il nome della conference
+                    if(league === 'nba') {
+                        html += `<div class="conf-title">${group.name}</div>`;
+                    }
+ 
+                    html += `
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="width:30px">#</th>
+                                    <th>Squadra</th>
+                                    ${isSoccer ? '<th>G</th><th>V</th><th>P</th><th>S</th><th>DR</th><th>Pt</th>' : '<th>W-L</th><th>%</th>'}
+                                </tr>
+                            </thead>
+                            <tbody>
+                    `;
+ 
+                    group.standings.entries.forEach((entry, index) => {
+                        const teamName = entry.team.shortDisplayName;
+                        const logo = entry.team.logos?.[0]?.href || "";
+                       
+                        let statsHtml = "";
+                        
+                        if(isSoccer) {
+                            // Statistiche calcio
+                            const gamesPlayed = entry.stats.find(s => s.name === 'gamesPlayed')?.value || 0;
+                            const wins = entry.stats.find(s => s.name === 'wins')?.value || 0;
+                            const ties = entry.stats.find(s => s.name === 'ties')?.value || 0;
+                            const losses = entry.stats.find(s => s.name === 'losses')?.value || 0;
+                            const goalDiff = entry.stats.find(s => s.name === 'pointDifferential')?.value || 0;
+                            const points = entry.stats.find(s => s.name === 'points')?.value || 0;
+                            
+                            const diffDisplay = goalDiff > 0 ? `+${goalDiff}` : goalDiff;
+                            const diffColor = goalDiff > 0 ? '#38a169' : (goalDiff < 0 ? '#e53e3e' : 'inherit');
+                            
+                            statsHtml = `
+                                <td>${gamesPlayed}</td>
+                                <td style="color:#38a169;font-weight:bold;">${wins}</td>
+                                <td>${ties}</td>
+                                <td style="color:#e53e3e;">${losses}</td>
+                                <td style="color:${diffColor};">${diffDisplay}</td>
+                                <td><strong>${points}</strong></td>
+                            `;
+                        } else {
+                            // Statistiche NBA
+                            const wins = entry.stats.find(s => s.name === 'wins')?.value || 0;
+                            const losses = entry.stats.find(s => s.name === 'losses')?.value || 0;
+                            const winPct = entry.stats.find(s => s.name === 'winPercent')?.value || 0;
+                            
+                            statsHtml = `
+                                <td><strong>${wins}-${losses}</strong></td>
+                                <td>${(winPct * 100).toFixed(1)}%</td>
+                            `;
+                        }
+
+                        // Ottieni la classe CSS per la zona
+                        const rowClass = getZoneClass(league, index);
+ 
+                        html += `
+                            <tr class="${rowClass}">
+                                <td><strong>${index + 1}</strong></td>
+                                <td><img src="${logo}" alt=""> ${teamName}</td>
+                                ${statsHtml}
+                            </tr>
+                        `;
+                    });
+                    html += `</tbody></table>`;
+                });
+
+                // Aggiungi la legenda
+                html += generateLegend(league);
+
+            } else if (data.standings) {
+                // Gestione per leghe senza gruppi (struttura diversa)
+                const entries = data.standings.entries || [];
+                
+                html += `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th style="width:30px">#</th>
+                                <th>Squadra</th>
+                                <th>G</th><th>V</th><th>P</th><th>S</th><th>DR</th><th>Pt</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+                entries.forEach((entry, index) => {
+                    const teamName = entry.team.shortDisplayName;
+                    const logo = entry.team.logos?.[0]?.href || "";
+                    
+                    const gamesPlayed = entry.stats.find(s => s.name === 'gamesPlayed')?.value || 0;
+                    const wins = entry.stats.find(s => s.name === 'wins')?.value || 0;
+                    const ties = entry.stats.find(s => s.name === 'ties')?.value || 0;
+                    const losses = entry.stats.find(s => s.name === 'losses')?.value || 0;
+                    const goalDiff = entry.stats.find(s => s.name === 'pointDifferential')?.value || 0;
+                    const points = entry.stats.find(s => s.name === 'points')?.value || 0;
+                    
+                    const diffDisplay = goalDiff > 0 ? `+${goalDiff}` : goalDiff;
+                    const diffColor = goalDiff > 0 ? '#38a169' : (goalDiff < 0 ? '#e53e3e' : 'inherit');
+                    
+                    const rowClass = getZoneClass(league, index);
+
+                    html += `
+                        <tr class="${rowClass}">
+                            <td><strong>${index + 1}</strong></td>
+                            <td><img src="${logo}" alt=""> ${teamName}</td>
+                            <td>${gamesPlayed}</td>
+                            <td style="color:#38a169;font-weight:bold;">${wins}</td>
+                            <td>${ties}</td>
+                            <td style="color:#e53e3e;">${losses}</td>
+                            <td style="color:${diffColor};">${diffDisplay}</td>
+                            <td><strong>${points}</strong></td>
+                        </tr>
+                    `;
+                });
+
+                html += `</tbody></table>`;
+                html += generateLegend(league);
+            }
+            
+            container.innerHTML = html;
+ 
+        } catch (err) {
+            console.error(err);
+            container.innerHTML = "<p style='color:#e53e3e;'>❌ Errore caricamento classifica.</p>";
+        }
+    }
+ 
+    // --- CARICAMENTO DATI ---
+    
+    // Serie A
+    caricaPartite("soccer", "ita.1", "seriea-scores");
+    caricaClassifica("soccer", "ita.1", "seriea-standings");
+ 
+    // Premier League
+    caricaPartite("soccer", "eng.1", "premier-scores");
+    caricaClassifica("soccer", "eng.1", "premier-standings");
+
+    // La Liga
+    caricaPartite("soccer", "esp.1", "liga-scores");
+    caricaClassifica("soccer", "esp.1", "liga-standings");
+
+    // Bundesliga
+    caricaPartite("soccer", "ger.1", "bundesliga-scores");
+    caricaClassifica("soccer", "ger.1", "bundesliga-standings");
+
+    // Ligue 1
+    caricaPartite("soccer", "fra.1", "ligue1-scores");
+    caricaClassifica("soccer", "fra.1", "ligue1-standings");
+
+    // NBA
+    caricaPartite("basketball", "nba", "nba-scores");
+    caricaClassifica("basketball", "nba", "nba-standings");
+ 
+</script>
+ 
+</body>
+</html>
