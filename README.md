@@ -11,7 +11,7 @@ L’obiettivo didattico del progetto è dimostrare la capacità di:
 
 ---
 
-## API utilizzata: ESPN
+## API utilizzata: ESPN API
 
 **ESPN API** è un servizio che fornisce dati sportivi tramite **API REST**.
 
