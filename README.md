@@ -27,7 +27,7 @@ ESPN API è un servizio che fornisce dati sportivi completi tramite interfaccia 
 
 Per questo progetto, l'API viene utilizzata per ottenere dati relativi alle partite di calcio dei principali campionati europei, inclusi informazioni come squadre partecipanti, punteggi finali e parziali, orari di inizio, stati degli eventi e statistiche correlate. I dati sono restituiti in formato JSON, un formato standard per lo scambio di dati nelle applicazioni web moderne, che facilita l'elaborazione e la manipolazione lato client e server.
 
-### 2.2 Campionati Supportati
+### 2.2 Campionati Supportati da ESPN
 
 L'applicazione è stata progettata per visualizzare i risultati e le informazioni relative ai seguenti campionati di calcio europei, scelti per la loro rilevanza a livello internazionale e per la copertura mediatica di cui godono.
 
@@ -38,6 +38,14 @@ L'applicazione è stata progettata per visualizzare i risultati e le informazion
 **Bundesliga (Campionato Tedesco)**: Il campionato tedesco, noto per il suo ritmo di gioco elevato e per la filosofia di sviluppo dei giovani talenti, include club come Bayern Monaco, Borussia Dortmund e RB Leipzig. L'applicazione mostra i risultati e le informazioni relative a tutte le partite del campionato.
 
 **Ligue 1 (Campionato Francese)**: Il campionato francese, negli ultimi anni caratterizzato dalla presenza di star internazionali Paris Saint-Germain, fornisce dati sulle partite che vengono integrati nell'applicazione per offrire una panoramica completa del calcio europeo.
+
+
+
+### 2.3 Flashscore API
+
+Flashscore API è un servizio che fornisce dati sportivi tramite interfaccia REST, consentendo l’accesso a informazioni aggiornate su eventi sportivi, con particolare riferimento alle competizioni calcistiche. L’API permette di ottenere dati relativi a partite, risultati, stati degli incontri, calendari e statistiche associate ai campionati, risultando adatta allo sviluppo di applicazioni orientate alla consultazione di dati sportivi.
+
+Nel contesto di questo progetto, l’API Flashscore viene utilizzata per cercare di ricavare informazioni relative ai marcatori dei principali campionati di calcio europei. Anche i dati di FLASHSCORE sono restituiti in formato JSON, uno standard ampiamente utilizzato nelle applicazioni web moderne, che facilita l’elaborazione e l’integrazione delle informazioni sia lato client che lato server.
 
 ---
 
