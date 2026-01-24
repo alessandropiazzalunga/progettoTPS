@@ -103,25 +103,16 @@ L'interfaccia è progettata per essere semplice e intuitiva, con una struttura a
 
 ---
 
-## 5. Stack Tecnologico
+## API utilizzata: ESPN API e FLASHSCORE
 
-### 5.1 Tecnologie Frontend
+**ESPN API** e **FLASHSCORE** sono un servizio che fornisce dati sportivi tramite **API REST**.
 
-L'interfaccia utente dell'applicazione è sviluppata utilizzando tecnologie standard del web, scelte per la loro diffusione, stabilità e facilità di apprendimento. Queste tecnologie formano la base dello sviluppo web moderno e sono supportate da tutti i browser contemporanei.
-
-**HTML5**: Il linguaggio di markup utilizzato per strutturare i contenuti dell'applicazione. HTML5 fornisce elementi semantici che migliorano l'accessibilità e la strutturazione logica della pagina, elementi multimediali per l'integrazione di contenuti audio e video, e API per la creazione di applicazioni web interattive.
-
-**JavaScript (ES6+)**: Il linguaggio di programmazione utilizzato per aggiungere interattività all'applicazione. Viene impiegata la sintassi moderna introdotta con ECMAScript 6 e versioni successive, incluse funzioni freccia, destructuring, template literals e classi. La Fetch API viene utilizzata per eseguire richieste HTTP asincrone verso il backend, mentre le funzionalità di manipolazione del DOM permettono di aggiornare dinamicamente il contenuto della pagina.
-
-**CSS3**: I fogli di stile utilizzati per definire l'aspetto visivo dell'applicazione. CSS3 offre funzionalità avanzate come flexbox e grid layout per la creazione di layout responsive, transizioni e animazioni per migliorare l'esperienza utente, e media queries per l'adattamento a diversi dispositivi.
-
-### 5.2 Tecnologie Backend
-
-Il backend dell'applicazione è sviluppato utilizzando framework e tecnologie che facilitano la creazione di API REST performanti e manutenibili. La scelta della tecnologia backend può ricadere su diversi framework moderni, ciascuno con caratteristiche specifiche che possono adattarsi alle preferenze dello sviluppatore o ai requisiti del progetto.
-
-**Node.js con Express**: Un ambiente di runtime JavaScript lato server basato sul motore V8 di Chrome, combinato con Express, un framework minimale e flessibile per la creazione di applicazioni web e API. Questa combinazione è particolarmente indicata per progetti che beneficiano della continuità del linguaggio JavaScript tra frontend e backend.
-
-**ASP.NET Core**: Un framework cross-platform sviluppato da Microsoft per la creazione di applicazioni web moderne, API REST e servizi cloud. Offre prestazioni elevate, strong typing con C# e un ricco ecosistema di librerie e strumenti.
+L’API mette a disposizione informazioni quali:
+- eventi sportivi programmati e recenti;
+- risultati delle partite (scores);
+- stato degli eventi (in corso, programmati, conclusi);
+- supporto a diversi sport e campionati (Serie A, Premier League, NBA, NFL, ecc.);
+- FLASHSCORE rispetto a ESPN fornisce anche i dati sui marcatori del campionato della liga.
 
 **Java con Spring Boot**: Un framework enterprise che semplifica la configurazione e lo sviluppo di applicazioni Java, particolarmente adatto per progetti che richiedono robustezza, scalabilità e manutenibilità a lungo termine.
 
@@ -199,36 +190,19 @@ La comunicazione tra frontend e backend dovrebbe avvenire preferibilmente tramit
 
 ---
 
-## 9. Test e Validazione
+### Funzionalità implementate
+- Modalità chiaro - scuro;
+- Implementazione di ulteriori campionati calcistici;
+- Aggiunta delle classifiche dei campionati implementati;
+- Statistiche della squadra;
+- Filtro per la selezione del campionato;
+- Classifica marcatori LaLiga
 
-### 9.1 Strategia di Testing
-
-Una strategia di testing completa è essenziale per garantire la qualità e l'affidabilità dell'applicazione. Il progetto dovrebbe prevedere diversi livelli di test che coprono le diverse componenti del sistema.
-
-I test unitari verificano il corretto funzionamento delle singole funzioni e metodi, sia lato backend (per la logica di elaborazione e normalizzazione dei dati) che lato frontend (per le funzioni di utility e manipolazione dati). Questi test sono tipicamente automatizzati e eseguiti frequentemente durante lo sviluppo.
-
-I test di integrazione verificano il corretto funzionamento dell'interazione tra le diverse componenti del sistema, inclusa la comunicazione tra frontend e backend e tra backend e API ESPN esterna. Questi test possono simulare le risposte dell'API esterna per verificare che il backend le elabori correttamente.
-
-I test end-to-end simulano l'interazione dell'utente con l'applicazione, verificando che i flussi principali funzionino correttamente dalla richiesta iniziale alla visualizzazione dei risultati. Strumenti come Selenium o Cypress possono essere utilizzati per automatizzare questi test.
-
-### 9.2 Validazione Manuale
-
-Oltre ai test automatizzati, è importante eseguire una validazione manuale dell'applicazione per verificare aspetti che difficilmente possono essere coperti da test automatizzati, come la corretta visualizzazione su diversi browser e dispositivi, la responsività del design, la leggibilità dei contenuti e la fluidità delle interazioni.
-
-La validazione manuale dovrebbe seguire un protocollo strutturato che prevede la verifica sistematica di tutti i requisiti funzionali, il test delle diverse combinazioni di filtri, la verifica del comportamento in caso di errori di rete e la prova dell'applicazione su dispositivi con dimensioni di schermo diverse.
+### Funzionalità non implementate
+- A causa di alcune limitazioni riscontrate durante la progettazione e l’utilizzo dell’API Flashscore, non è stato possibile implementare il recupero dei dati dei marcatori per tutti i campionati.
+In particolare, l’API consente di ottenere i dati dei marcatori di questa stagione solamente per il campionato della LaLiga, mentre non fornisce tali informazioni per gli altri campionati.
 
 ---
 
-## 10. Conclusioni e Sviluppi Futuri
-
-### 10.1 Obiettivi Didattici Raggiunti
-
-Il progetto "Live Sports Results" rappresenta un'esperienza formativa completa che permette di applicare e consolidare competenze fondamentali nello sviluppo web moderno. Attraverso la realizzazione di questo progetto, lo studente ha dimostrato la capacità di integrare API REST esterne in un'applicazione web, gestendo l'intero ciclo di vita della richiesta dalla chiamata iniziale fino alla visualizzazione dei dati.
-
-La gestione e normalizzazione dei dati in formato JSON ha permesso di acquisire competenze pratiche nella manipolazione di strutture dati complesse, nella trasformazione dei dati per adattarli alle esigenze dell'applicazione e nella gestione di formati di risposta eterogenei. La progettazione dell'architettura client–server ha fornito una comprensione approfondita delle dinamiche di comunicazione tra componenti distribuite e delle best practice nella progettazione di API REST.
-
-La documentazione del progetto, elemento fondamentale del processo di sviluppo software professionale, ha permesso di strutturare le informazioni tecniche in modo chiaro e completo, facilitando la comprensione del sistema da parte di altri sviluppatori e costituendo una base solida per la manutenzione e l'evoluzione futura dell'applicazione.
-
-### 10.2 Possibili Estensioni
-
-L'applicazione "Live Sports Results" può essere estesa con funzionalità aggiuntive che ne aumentano il valore e la complessità tecnica. Tra le possibili estensioni si evidenziano l'aggiunta di ulteriori sport (basket, tennis, rugby) e campionati (Champions League), l'implementazione di funzionalità di ricerca avanzata e ordinamento personalizzato, l'integrazione di statistiche dettagliate sulle partite e sui giocatori, e lo sviluppo di notifiche push per avvisare l'utente di eventi specifici.
+## Conclusione
+Il progetto web “Live Sports Results”, basato su **The Odds API**, permette di sviluppare una dashboard per la visualizzazione dei risultati sportivi, applicando competenze fondamentali di sviluppo web, integrazione di API REST esterne e progettazione di un’architettura client–server in un contesto realistico e didatticamente efficace.
