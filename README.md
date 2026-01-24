@@ -11,15 +11,16 @@ L’obiettivo didattico del progetto è dimostrare la capacità di:
 
 ---
 
-## API utilizzata: ESPN API
+## API utilizzata: ESPN API e FLASHSCORE
 
-**ESPN API** è un servizio che fornisce dati sportivi tramite **API REST**.
+**ESPN API** e **FLASHSCORE** sono un servizio che fornisce dati sportivi tramite **API REST**.
 
 L’API mette a disposizione informazioni quali:
 - eventi sportivi programmati e recenti;
 - risultati delle partite (scores);
 - stato degli eventi (in corso, programmati, conclusi);
-- supporto a diversi sport e campionati (Serie A, Premier League, NBA, NFL, ecc.).
+- supporto a diversi sport e campionati (Serie A, Premier League, NBA, NFL, ecc.);
+- FLASHSCORE rispetto a ESPN fornisce anche i dati sui marcatori del campionato della liga.
 
 I dati sono restituiti in **formato JSON**, facilmente integrabili in applicazioni web.
 
@@ -98,6 +99,20 @@ Esempi di endpoint backend:
 - Architettura: REST
 - Versionamento del codice: Git
 - Ambiente di sviluppo: Visual Studio
+
+---
+
+### Funzionalità implementate
+- Modalità chiaro - scuro;
+- Implementazione di ulteriori campionati calcistici;
+- Aggiunta delle classifiche dei campionati implementati;
+- Statistiche della squadra;
+- Filtro per la selezione del campionato;
+- Classifica marcatori LaLiga
+
+### Funzionalità non implementate
+- A causa di alcune limitazioni riscontrate durante la progettazione e l’utilizzo dell’API Flashscore, non è stato possibile implementare il recupero dei dati dei marcatori per tutti i campionati.
+In particolare, l’API consente di ottenere i dati dei marcatori di questa stagione solamente per il campionato della LaLiga, mentre non fornisce tali informazioni per gli altri campionati.
 
 ---
 
